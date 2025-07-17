@@ -201,7 +201,7 @@ NEXT_PUBLIC_APP_URL=https://your-domain.com
 
 \`\`\`bash
 # Run tests
-cd server && npm test
+npm test
 
 # Run with coverage
 npm run test:coverage
