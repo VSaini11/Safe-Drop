@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download File - SafeDrop</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔒 SafeDrop</h1>
+            <a href="index.html" class="back-link">← Upload new file</a>
+        </header>
+
+        <main>
+            <div class="download-section">
+                <div id="loadingState" class="loading">
+                    <div class="spinner"></div>
+                    <p>Loading file information...</p>
+                </div>
+
+                <div id="passwordForm" class="password-form" style="display: none;">
+                    <h2>🔐 Password Required</h2>
+                    <p>This file is password protected</p>
+                    <form id="passwordSubmit">
+                        <input type="password" id="downloadPassword" placeholder="Enter password" required>
+                        <button type="submit">Access File</button>
+                    </form>
+                    <div id="passwordError" class="error" style="display: none;"></div>
+                </div>
+
+                <div id="downloadReady" class="download-ready" style="display: none;">
+                    <div class="file-info">
+                        <div class="file-icon-large">📄</div>
+                        <h2 id="fileName">File Name</h2>
+                        <p class="file-details">
+                            <span id="fileSize">Size</span> • 
+                            <span id="uploadDate">Uploaded</span>
+                        </p>
+                        <p class="expiry-warning">
+                            ⏰ Expires: <span id="expiryDate"></span>
+                        </p>
+                    </div>
+                    
+                    <button id="downloadBtn" class="download-btn">
+                        <span class="btn-text">📥 Download File</span>
+                        <span class="btn-loader" style="display: none;">⏳ Preparing...</span>
+                    </button>
+                </div>
+
+                <div id="errorState" class="error-state" style="display: none;">
+                    <div class="error-icon">❌</div>
+                    <h2 id="errorTitle">File Not Found</h2>
+                    <p id="errorMessage">This file may have expired or been removed.</p>
+                    <a href="index.html" class="btn-secondary">Upload New File</a>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="download.js"></script>
+</body>
+</html>

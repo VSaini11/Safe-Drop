@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SafeDrop - Secure File Sharing</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔒 SafeDrop</h1>
+            <p>Secure, temporary file sharing</p>
+        </header>
+
+        <main>
+            <div class="upload-section">
+                <h2>Share a File</h2>
+                <form id="uploadForm" class="upload-form">
+                    <div class="file-input-wrapper">
+                        <input type="file" id="fileInput" required>
+                        <label for="fileInput" class="file-label">
+                            <span class="file-icon">📁</span>
+                            <span class="file-text">Choose file to upload</span>
+                        </label>
+                    </div>
+
+                    <div class="options">
+                        <div class="option-group">
+                            <label for="password">Password (optional)</label>
+                            <input type="password" id="password" placeholder="Protect with password">
+                        </div>
+
+                        <div class="option-group">
+                            <label for="expiry">Expires in</label>
+                            <select id="expiry" required>
+                                <option value="3600">1 hour</option>
+                                <option value="86400" selected>1 day</option>
+                                <option value="604800">1 week</option>
+                                <option value="2592000">1 month</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="upload-btn" id="uploadBtn">
+                        <span class="btn-text">Upload File</span>
+                        <span class="btn-loader" style="display: none;">⏳ Uploading...</span>
+                    </button>
+                </form>
+
+                <div id="uploadResult" class="result" style="display: none;">
+                    <h3>✅ File uploaded successfully!</h3>
+                    <div class="share-link">
+                        <label>Share this link:</label>
+                        <div class="link-container">
+                            <input type="text" id="shareLink" readonly>
+                            <button id="copyBtn" class="copy-btn">Copy</button>
+                        </div>
+                    </div>
+                    <p class="expiry-info">This link will expire in <span id="expiryTime"></span></p>
+                </div>
+
+                <div id="uploadError" class="error" style="display: none;"></div>
+            </div>
+
+            <div class="features">
+                <h3>Why SafeDrop?</h3>
+                <div class="feature-grid">
+                    <div class="feature">
+                        <span class="feature-icon">🔐</span>
+                        <h4>Secure</h4>
+                        <p>Optional password protection</p>
+                    </div>
+                    <div class="feature">
+                        <span class="feature-icon">⏰</span>
+                        <h4>Temporary</h4>
+                        <p>Files auto-delete after expiry</p>
+                    </div>
+                    <div class="feature">
+                        <span class="feature-icon">🚀</span>
+                        <h4>Fast</h4>
+                        <p>Quick uploads and downloads</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
