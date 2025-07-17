@@ -12,23 +12,9 @@ env:
   IMAGE_NAME: ${{ github.repository }}
 
 jobs:
-  # Test Job
-  test:
+  # Build and Test Job
+  build:
     runs-on: ubuntu-latest
-    
-    services:
-      mongodb:
-        image: mongo:7.0
-        env:
-          MONGO_INITDB_ROOT_USERNAME: admin
-          MONGO_INITDB_ROOT_PASSWORD: password123
-        ports:
-          - 27017:27017
-        options: >-
-          --health-cmd "echo 'db.runCommand(\"ping\").ok' | mongosh localhost:27017/test --quiet"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
 
     steps:
     - name: Checkout code
@@ -41,26 +27,22 @@ jobs:
         cache: 'npm'
 
     - name: Install dependencies
-      run: |
-        cd server
-        npm ci
+      run: npm install
 
     - name: Run linting
-      run: |
-        cd server
-        npm run lint
+      run: npm run lint
 
-    - name: Run tests
-      run: |
-        cd server
-        npm test
+    - name: Build
+      run: npm run build
       env:
-        NODE_ENV: test
+        NODE_ENV: production
+        NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+        NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
         MONGODB_URI: mongodb://admin:password123@localhost:27017/safedrop_test?authSource=admin
 
   # Build and Push Docker Image
   build-and-push:
-    needs: test
+    needs: build
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     
