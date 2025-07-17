@@ -1,15 +1,21 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     images: {
-        domains: ['res.cloudinary.com']
+        domains: ['res.cloudinary.com', 'podxgmdbglhthivijcrv.supabase.co']
     },
     typescript: {
-        // Skip type checking during build for speed since Vercel will do it anyway
         ignoreBuildErrors: true
     },
     eslint: {
-        // Skip ESLint during build for speed since Vercel will do it anyway
         ignoreDuringBuilds: true
+    },
+    experimental: {
+        serverActions: true
+    },
+    env: {
+        NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL,
+        NEXT_PUBLIC_SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+        MONGODB_URI: process.env.MONGODB_URI
     }
 }
 
