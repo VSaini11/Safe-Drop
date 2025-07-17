@@ -102,7 +102,8 @@ export default function HomePage() {
 
   const copyToClipboard = async () => {
     if (uploadResult?.fileId) {
-      const downloadUrl = `${process.env.NEXT_PUBLIC_APP_URL || window.location.origin}/download?id=${uploadResult.fileId}`
+      const baseUrl = window.location.hostname === "localhost" ? window.location.origin : process.env.NEXT_PUBLIC_APP_URL
+      const downloadUrl = `${baseUrl}/download?id=${uploadResult.fileId}`
       try {
         await navigator.clipboard.writeText(downloadUrl)
         setCopied(true)

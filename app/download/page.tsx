@@ -26,7 +26,7 @@ function DownloadContent() {
 
   const loadFileInfo = async () => {
     try {
-      const response = await fetch(`http://localhost:3000/api/file/${fileId}`)
+      const response = await fetch(`/api/file/${fileId}`)
       const result = await response.json()
 
       if (!response.ok) {
@@ -60,7 +60,7 @@ function DownloadContent() {
     }
 
     try {
-      const response = await fetch(`http://localhost:3000/api/file/${fileId}/verify`, {
+      const response = await fetch(`/api/file/${fileId}/verify`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -87,7 +87,7 @@ function DownloadContent() {
     setError("")
     
     try {
-      const url = `http://localhost:3000/api/file/${fileId}/download${password ? `?password=${encodeURIComponent(password)}` : ""}`
+      const url = `/api/file/${fileId}/download${password ? `?password=${encodeURIComponent(password)}` : ""}`
       
       const response = await fetch(url)
       

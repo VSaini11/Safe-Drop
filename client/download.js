@@ -1,9 +1,8 @@
 class SafeDropDownloader {
   constructor() {
-    // Get the API URL from environment or use localhost for development
-    this.apiUrl = window.location.hostname === "localhost" 
-      ? "http://localhost:3000" 
-      : "https://safe-drop-server.vercel.app"  // Update this to your actual server URL
+    // Always use localhost:3000 for development
+    this.apiUrl = "http://localhost:3000/api"
+    console.log("API URL:", this.apiUrl) // Debug log
     this.fileId = this.getFileIdFromUrl()
     this.initializeElements()
     this.bindEvents()
