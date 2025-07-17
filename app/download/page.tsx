@@ -2,6 +2,7 @@
 
 import { useState, useEffect, Suspense } from "react"
 import { useSearchParams } from "next/navigation"
+import Link from "next/link"
 
 function DownloadContent() {
   const searchParams = useSearchParams()
@@ -167,12 +168,12 @@ function DownloadContent() {
           <div className="text-6xl mb-4">❌</div>
           <h2 className="text-2xl font-bold text-gray-800 mb-4">Error</h2>
           <p className="text-gray-600 mb-6">{error}</p>
-          <a
+          <Link
             href="/"
             className="inline-block px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
           >
             Upload New File
-          </a>
+          </Link>
         </div>
       </div>
     )
@@ -185,9 +186,9 @@ function DownloadContent() {
           <h1 className="text-4xl font-bold text-gray-800 mb-4">
             🔒 SafeDrop
           </h1>
-          <a href="/" className="text-blue-600 hover:text-blue-700">
+          <Link href="/" className="text-blue-600 hover:text-blue-700">
             ← Upload new file
-          </a>
+          </Link>
         </header>
 
         <main className="max-w-2xl mx-auto">
