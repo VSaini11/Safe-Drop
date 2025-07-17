@@ -11,6 +11,9 @@ require("dotenv").config({ path: path.join(__dirname, '.env') })
 const app = express()
 const PORT = process.env.PORT || 3000
 
+// Trust proxy - required for Railway deployment
+app.set('trust proxy', 1)
+
 // Connect to MongoDB
 connectDB()
 
@@ -65,16 +68,33 @@ app.use("/api/upload", uploadLimiter)
 app.use(express.json({ limit: "50mb" }))
 app.use(express.urlencoded({ extended: true, limit: "50mb" }))
 
-// Serve static files
-app.use(express.static(path.join(__dirname, "../client")))
-
 // API routes
 app.use("/api", fileRoutes)
 
-// Serve frontend for all other routes
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../client/index.html"))
-})
+// In production, serve the frontend if it exists
+if (process.env.NODE_ENV === 'production') {
+  // Check if client directory exists
+  const clientPath = path.join(__dirname, "./client")
+  const indexPath = path.join(clientPath, "index.html")
+  
+  if (require('fs').existsSync(clientPath)) {
+    app.use(express.static(clientPath))
+    
+    // Serve frontend for all other routes
+    app.get("*", (req, res) => {
+      if (require('fs').existsSync(indexPath)) {
+        res.sendFile(indexPath)
+      } else {
+        res.status(404).json({ message: "Frontend not found" })
+      }
+    })
+  }
+} else {
+  // In development, just handle API requests
+  app.get("*", (req, res) => {
+    res.status(404).json({ message: "Route not found" })
+  })
+}
 
 // Error handling middleware
 app.use((error, req, res, next) => {
