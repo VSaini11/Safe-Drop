@@ -11,6 +11,14 @@ require("dotenv").config({ path: path.join(__dirname, '.env') })
 const app = express()
 const PORT = process.env.PORT || 3000
 
+// Log environment for debugging
+console.log('Starting server with config:', {
+  NODE_ENV: process.env.NODE_ENV,
+  PORT: process.env.PORT,
+  MONGODB_URI: process.env.MONGODB_URI ? 'Set' : 'Not set',
+  FRONTEND_URL: process.env.FRONTEND_URL
+})
+
 // Trust proxy - required for Railway deployment
 app.set('trust proxy', 1)
 
