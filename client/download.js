@@ -1,6 +1,6 @@
 class SafeDropDownloader {
   constructor() {
-    this.apiUrl = window.location.hostname === "localhost" ? "http://localhost:3000/api" : "/api"
+    this.apiUrl = window.location.hostname === "localhost" ? "http://localhost:3000/api" : "https://safe-drop-blond.vercel.app/api"
     this.fileId = this.getFileIdFromUrl()
     this.initializeElements()
     this.bindEvents()
