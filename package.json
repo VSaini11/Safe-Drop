@@ -6,7 +6,8 @@
     "build": "next build",
     "dev": "next dev",
     "lint": "next lint",
-    "start": "next start"
+    "start": "node server/app.js",
+    "postinstall": "npm install --prefix server"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",
