@@ -1,6 +1,9 @@
 class SafeDropDownloader {
   constructor() {
-    this.apiUrl = window.location.hostname === "localhost" ? "http://localhost:3000/api" : "https://safe-drop-blond.vercel.app/api"
+    // Get the API URL from environment or use localhost for development
+    this.apiUrl = window.location.hostname === "localhost" 
+      ? "http://localhost:3000" 
+      : "https://safe-drop-server.vercel.app"  // Update this to your actual server URL
     this.fileId = this.getFileIdFromUrl()
     this.initializeElements()
     this.bindEvents()
@@ -41,7 +44,14 @@ class SafeDropDownloader {
     }
 
     try {
-      const response = await fetch(`${this.apiUrl}/file/${this.fileId}`)
+      console.log("Fetching file info from:", `${this.apiUrl}/file/${this.fileId}`)
+      const response = await fetch(`${this.apiUrl}/file/${this.fileId}`, {
+        headers: {
+          'Accept': 'application/json',
+          'Cache-Control': 'no-cache'
+        }
+      })
+      console.log("Response status:", response.status)
       const result = await response.json()
 
       if (!response.ok) {
