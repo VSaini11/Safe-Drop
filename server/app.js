@@ -68,33 +68,24 @@ app.use("/api/upload", uploadLimiter)
 app.use(express.json({ limit: "50mb" }))
 app.use(express.urlencoded({ extended: true, limit: "50mb" }))
 
+// Enable CORS for the Next.js frontend
+app.use(cors({
+  origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+  credentials: true
+}))
+
 // API routes
 app.use("/api", fileRoutes)
 
-// In production, serve the frontend if it exists
-if (process.env.NODE_ENV === 'production') {
-  // Check if client directory exists
-  const clientPath = path.join(__dirname, "./client")
-  const indexPath = path.join(clientPath, "index.html")
-  
-  if (require('fs').existsSync(clientPath)) {
-    app.use(express.static(clientPath))
-    
-    // Serve frontend for all other routes
-    app.get("*", (req, res) => {
-      if (require('fs').existsSync(indexPath)) {
-        res.sendFile(indexPath)
-      } else {
-        res.status(404).json({ message: "Frontend not found" })
-      }
-    })
-  }
-} else {
-  // In development, just handle API requests
-  app.get("*", (req, res) => {
-    res.status(404).json({ message: "Route not found" })
-  })
-}
+// For API routes not found
+app.use('/api/*', (req, res) => {
+  res.status(404).json({ message: 'API route not found' })
+})
+
+// Let Next.js handle all other routes
+app.get('*', (req, res) => {
+  res.redirect(process.env.FRONTEND_URL || 'http://localhost:3000')
+})
 
 // Error handling middleware
 app.use((error, req, res, next) => {
