@@ -8,8 +8,8 @@ SafeDrop is a full-stack, secure file sharing application built with vanilla Jav
 - **⏰ Time-based Expiry**: Files automatically expire and are deleted (1hr, 1 day, 1 week, 1 month)
 - **🚀 Fast & Simple**: Clean, responsive vanilla JavaScript frontend
 - **🛡️ Security First**: Rate limiting, input sanitization, CORS protection, Helmet.js
-- **☁️ Cloud Storage**: Files stored securely on Cloudinary
-- **🧹 Auto Cleanup**: Scheduled cleanup of expired files using node-cron
+- **☁️ Cloud Storage**: Files stored securely on Supabase Storage
+- **🧹 Auto Cleanup**: Automatic file expiration and cleanup
 - **🐳 Dockerized**: Complete Docker setup with docker-compose
 - **📊 MongoDB**: Efficient storage with TTL indexes for automatic expiry
 
@@ -18,14 +18,14 @@ SafeDrop is a full-stack, secure file sharing application built with vanilla Jav
 \`\`\`
 ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
 │   Frontend      │    │   Backend       │    │   Database      │
-│   (Vanilla JS)  │◄──►│   (Node.js)     │◄──►│   (MongoDB)     │
-│                 │    │   Express       │    │   TTL Indexes   │
+│   (Next.js)     │◄──►│   API Routes    │◄──►│   MongoDB      │
+│                 │    │   & Supabase    │    │   TTL Indexes  │
 └─────────────────┘    └─────────────────┘    └─────────────────┘
                               │
                               ▼
                        ┌─────────────────┐
                        │   File Storage  │
-                       │   (Cloudinary)  │
+                       │   (Supabase)    │
                        └─────────────────┘
 \`\`\`
 
@@ -35,7 +35,7 @@ SafeDrop is a full-stack, secure file sharing application built with vanilla Jav
 
 - Node.js 18+ and npm
 - MongoDB (or use Docker)
-- Cloudinary account (free tier available)
+- Supabase account (free tier available)
 
 ### 1. Clone and Setup
 
@@ -50,10 +50,9 @@ cp .env.example .env
 Edit \`.env\` with your settings:
 
 \`\`\`env
-# Required: Cloudinary credentials
-CLOUDINARY_CLOUD_NAME=your_cloud_name
-CLOUDINARY_API_KEY=your_api_key
-CLOUDINARY_API_SECRET=your_api_secret
+# Required: Supabase credentials
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
 
 # Database
 MONGODB_URI=mongodb://localhost:27017/safedrop
@@ -91,20 +90,16 @@ Visit \`http://localhost:3000\` to use SafeDrop!
 
 \`\`\`
 safedrop/
-├── client/                 # Frontend (Vanilla JS)
-│   ├── index.html         # Upload page
-│   ├── download.html      # Download page
-│   ├── styles.css         # Styling
-│   ├── script.js          # Upload functionality
-│   └── download.js        # Download functionality
-├── server/                # Backend (Node.js)
-│   ├── app.js            # Main application
-│   ├── config/           # Configuration
-│   ├── controllers/      # Route controllers
-│   ├── models/           # MongoDB models
-│   ├── routes/           # API routes
-│   ├── services/         # Business logic
-│   └── utils/            # Utilities
+├── app/                  # Next.js App Router
+│   ├── layout.tsx       # Root layout
+│   ├── page.tsx         # Home page
+│   └── api/            # API Routes
+├── components/          # React Components
+│   └── ui/             # UI Components
+├── lib/                # Utilities
+│   └── utils.ts        # Helper functions
+├── public/             # Static assets
+└── styles/             # CSS styles
 ├── scripts/              # Database scripts
 ├── .github/workflows/    # CI/CD pipeline
 ├── docker-compose.yml    # Docker orchestration
@@ -137,7 +132,7 @@ safedrop/
 ### File Upload Limits
 - Maximum file size: 50MB
 - Supported: All file types (except dangerous executables)
-- Storage: Cloudinary with automatic optimization
+- Storage: Supabase Storage with secure access control
 
 ### Expiry Options
 - 1 hour
@@ -197,10 +192,9 @@ docker-compose --profile cache up -d
 \`\`\`env
 NODE_ENV=production
 MONGODB_URI=your_production_mongodb_uri
-CLOUDINARY_CLOUD_NAME=your_cloud_name
-CLOUDINARY_API_KEY=your_api_key
-CLOUDINARY_API_SECRET=your_api_secret
-FRONTEND_URL=https://your-domain.com
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+NEXT_PUBLIC_APP_URL=https://your-domain.com
 \`\`\`
 
 ## 🧪 Testing
